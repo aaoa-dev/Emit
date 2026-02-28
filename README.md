@@ -2,6 +2,8 @@
 
 **They Fly. Earth Burns.**
 
+🌐 **Live Demo**: [https://aaoa-dev.github.io/Emit/](https://aaoa-dev.github.io/Emit/)
+
 An Environmental Accountability Calculator that exposes the staggering carbon inequality between billionaires' private jet habits and everyday people's carbon footprints.
 
 ## What It Does
