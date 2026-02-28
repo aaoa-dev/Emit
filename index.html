@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>They Fly. Earth Dies.</title>
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div class="header">
+  <button class="mute-btn" id="muteBtn" onclick="toggleMuteBtn()" title="Toggle sound">
+    <code id="muteLabel">[SND]</code>
+  </button>
+  <div class="label-top">⚠ Environmental Accountability Calculator</div>
+  <h1>THEY FLY.<br><span>EARTH BURNS.</span></h1>
+  <p class="subtitle">Find out how many lifetimes you'd need to live to match your favourite billionaire's private jet habit.</p>
+</div>
+
+<div class="split-flap-display" id="splitFlap"></div>
+
+<div class="container">
+
+  <!-- STEP 1: PICK BILLIONAIRE -->
+  <div class="section">
+    <div class="section-label">Step 01 / 02</div>
+    <div class="section-title">PICK YOUR VILLAIN</div>
+    <div class="section-sub">Top emitters from ClimateJets.org tracking data (2022–2023). These are the actual worst private jet polluters — not just the most famous. Or enter your own.</div>
+
+    <div class="billionaires-grid" id="bGrid">
+      <!-- injected by JS -->
+    </div>
+
+    <div class="custom-row" style="margin-top:20px;">
+      <label>CUSTOM NAME</label>
+      <input type="text" id="customName" placeholder="Your billionaire..." style="max-width:220px;">
+    </div>
+    <div class="custom-row" style="margin-top:10px;">
+      <label>ANNUAL JET CO₂ (TONNES)</label>
+      <input type="number" id="customTonnes" placeholder="e.g. 2000" style="max-width:160px;" min="0">
+    </div>
+
+    <div class="bstats" id="bStats">
+      <div class="bstats-name" id="bStatsName"></div>
+      <div class="stats-row" id="bStatsRow"></div>
+      <div class="shame-fact" id="bShameFact"></div>
+    </div>
+  </div>
+
+  <!-- STEP 2: YOUR ACTIVITIES -->
+  <div class="section">
+    <div class="section-label">Step 02 / 02</div>
+    <div class="section-title">YOUR FOOTPRINT</div>
+    <div class="section-sub">Be honest. No one's watching. (We're not collecting data.)</div>
+
+    <div class="activities-grid">
+      <div class="activity-row">
+        <div>
+          <div class="act-label"><code>[A/C]</code> Short-haul flights</div>
+          <div class="act-sub">UNDER 3 HOURS · ~0.255 TONNES EACH</div>
+        </div>
+        <div class="act-input-wrap">
+          <div class="number-input">
+            <input type="number" id="act_shorthaul" value="0" min="0" max="200">
+            <div class="input-controls">
+              <button type="button" class="ctrl-up" onclick="adjustValue('act_shorthaul', 1)" title="Increase">+</button>
+              <button type="button" class="ctrl-down" onclick="adjustValue('act_shorthaul', -1)" title="Decrease">-</button>
+            </div>
+          </div>
+          <span class="act-unit">/ YEAR</span>
+        </div>
+      </div>
+      <div class="activity-row">
+        <div>
+          <div class="act-label"><code>[A/C]</code> Long-haul flights</div>
+          <div class="act-sub">TRANSATLANTIC/TRANSPACIFIC · ~1.5 TONNES EACH</div>
+        </div>
+        <div class="act-input-wrap">
+          <div class="number-input">
+            <input type="number" id="act_longhaul" value="0" min="0" max="100">
+            <div class="input-controls">
+              <button type="button" class="ctrl-up" onclick="adjustValue('act_longhaul', 1)" title="Increase">+</button>
+              <button type="button" class="ctrl-down" onclick="adjustValue('act_longhaul', -1)" title="Decrease">-</button>
+            </div>
+          </div>
+          <span class="act-unit">/ YEAR</span>
+        </div>
+      </div>
+      <div class="activity-row">
+        <div>
+          <div class="act-label"><code>[VEH]</code> Car driving</div>
+          <div class="act-sub">AVERAGE CAR · ~0.21 KG CO₂/KM</div>
+        </div>
+        <div class="act-input-wrap">
+          <div class="number-input">
+            <input type="number" id="act_driving" value="0" min="0" max="100000" step="100">
+            <div class="input-controls">
+              <button type="button" class="ctrl-up" onclick="adjustValue('act_driving', 100)" title="Increase">+</button>
+              <button type="button" class="ctrl-down" onclick="adjustValue('act_driving', -100)" title="Decrease">-</button>
+            </div>
+          </div>
+          <span class="act-unit">KM / YR</span>
+        </div>
+      </div>
+      <div class="activity-row" style="flex-wrap:wrap; gap:12px;">
+        <div style="flex:1; min-width:200px;">
+          <div class="act-label"><code>[SEA]</code> Private yacht days</div>
+          <div class="act-sub" id="yacht_sub">CHARTER DAY YACHT · ~3 TONNES / DAY</div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:8px; align-items:flex-end;">
+          <div class="act-input-wrap">
+            <div class="number-input">
+              <input type="number" id="act_yacht" value="0" min="0" max="365">
+              <div class="input-controls">
+                <button type="button" class="ctrl-up" onclick="adjustValue('act_yacht', 1)" title="Increase">+</button>
+                <button type="button" class="ctrl-down" onclick="adjustValue('act_yacht', -1)" title="Decrease">-</button>
+              </div>
+            </div>
+            <span class="act-unit">DAYS / YR</span>
+          </div>
+          <select id="act_yacht_size" onchange="updateYachtLabel()" style="width:200px; padding:7px 8px; font-size:11px;">
+            <option value="3">Charter / Day Yacht (~50ft)</option>
+            <option value="7">Large Private (~50–80m)</option>
+            <option value="20">Superyacht (~80–120m)</option>
+            <option value="30">Gigayacht (120m+, Bezos tier)</option>
+          </select>
+        </div>
+        <div style="width:100%; display:flex; align-items:center; gap:10px; padding-top:4px; border-top:1px solid #222; margin-top:4px;">
+          <input type="checkbox" id="act_support_vessel" style="width:auto; accent-color:var(--red);">
+          <label for="act_support_vessel" style="font-size:11px; color:var(--muted); cursor:pointer; letter-spacing:0.1em;">
+            + SUPPORT VESSEL (helicopter tender, chase boat) — adds ~40% on top
+          </label>
+        </div>
+      </div>
+      <div class="activity-row">
+        <div>
+          <div class="act-label"><code>[F/A]</code> Meat diet</div>
+          <div class="act-sub">HEAVY MEAT DIET ADDS ~2.5T OVER PLANT-BASED</div>
+        </div>
+        <div class="act-input-wrap">
+          <select id="act_diet" style="width:100px;padding:8px 6px;font-size:11px;">
+            <option value="0">Vegan</option>
+            <option value="0.8">Veggie</option>
+            <option value="1.5" selected>Average</option>
+            <option value="2.5">Heavy Meat</option>
+          </select>
+          <span class="act-unit"></span>
+        </div>
+      </div>
+      <div class="activity-row">
+        <div>
+          <div class="act-label"><code>[PWR]</code> Home energy</div>
+          <div class="act-sub">GLOBAL AVG ~1.5T · LARGE HOUSE ~4T+</div>
+        </div>
+        <div class="act-input-wrap">
+          <select id="act_home" style="width:120px;padding:8px 6px;font-size:11px;">
+            <option value="0.5">Solar/EV</option>
+            <option value="1.5" selected>Average</option>
+            <option value="3">Large Home</option>
+            <option value="5">Mansion</option>
+          </select>
+          <span class="act-unit"></span>
+        </div>
+      </div>
+    </div>
+
+    <button class="calc-btn" id="calcBtn" onclick="calculate()">
+      ⚡ CALCULATE THE DAMAGE
+    </button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="results" id="results">
+    <div class="section-label" style="padding-top:20px;">☠ THE VERDICT</div>
+
+    <div class="verdict-box">
+      <div class="verdict-label">YEARS YOU MUST LIVE TO MATCH THEIR JET EMISSIONS</div>
+      <div class="verdict-number" id="verdictYears">—</div>
+      <div class="verdict-unit">years of your life</div>
+      <div class="verdict-sentence" id="verdictSentence"></div>
+    </div>
+
+    <div class="compare-grid">
+      <div class="compare-card theirs">
+        <div class="cc-label">Their Annual Jets</div>
+        <div class="cc-name" id="resTheirName">—</div>
+        <div class="cc-stat">
+          <span class="cc-stat-label">CO₂ TONNES / YR</span>
+          <span class="cc-stat-val" id="resTheirTonnes">—</span>
+        </div>
+        <div class="cc-stat">
+          <span class="cc-stat-label">TIMES GLOBAL AVG</span>
+          <span class="cc-stat-val" id="resTheirMult">—</span>
+        </div>
+        <div class="cc-stat">
+          <span class="cc-stat-label">TONNES / FLIGHT</span>
+          <span class="cc-stat-val" id="resTheirPerFlight">—</span>
+        </div>
+      </div>
+      <div class="compare-card yours">
+        <div class="cc-label">Your Annual Total</div>
+        <div class="cc-name">YOU</div>
+        <div class="cc-stat">
+          <span class="cc-stat-label">CO₂ TONNES / YR</span>
+          <span class="cc-stat-val" id="resYourTonnes">—</span>
+        </div>
+        <div class="cc-stat">
+          <span class="cc-stat-label">VS GLOBAL AVG (4T)</span>
+          <span class="cc-stat-val" id="resYourVsAvg">—</span>
+        </div>
+        <div class="cc-stat">
+          <span class="cc-stat-label">VS THEIR JETS</span>
+          <span class="cc-stat-val" id="resYourVsTheirs">—</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bar chart -->
+    <div class="years-bar-section">
+      <div class="years-bar-label">YOUR LIFETIME EMISSIONS vs THEIRS (1 BAR = 1 YEAR)</div>
+      <div class="bar-wrap">
+        <div class="bar-yours" id="barYours" style="width:1%"><span id="barYoursLabel">YOU</span></div>
+        <div class="bar-theirs-marker" title="Their jets (1 year)"></div>
+      </div>
+      <div class="bar-note">Red line = their single year of jet emissions. Green bar = how many of your years fit inside it.</div>
+    </div>
+
+    <!-- Equivalents -->
+    <div class="equiv-section">
+      <div class="equiv-title">THEIR JETS, IN HUMAN TERMS</div>
+      <div class="equiv-grid" id="equivGrid"></div>
+    </div>
+
+    <!-- Grade -->
+    <div class="grade-section">
+      <div class="grade-label">Systemic Accountability Score</div>
+      <div class="grade" id="gradeDisplay">—</div>
+      <div class="grade-desc" id="gradeDesc">—</div>
+    </div>
+
+    <div style="text-align:center;">
+      <button class="reset-btn" onclick="reset()">↩ CALCULATE AGAIN</button>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>Data sourced from ClimateJets.org (founded by Akash Shendure), the most comprehensive private jet emissions tracker. Additional sources: ADSB Exchange, Business Insider, The Guardian, Fortune. Private jet CO₂ calculated at ~2.0 kg CO₂/km. Figures represent verified 2022-2023 flight tracking data and are for educational purposes.<br><br>
+  ⚠ Individual action matters — but systemic change matters more. The richest 1% are responsible for as much carbon as the bottom 66% combined. (Oxfam, 2023)</p>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>
