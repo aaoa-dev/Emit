@@ -7,7 +7,7 @@ const BILLIONAIRES = [
     tonnes: 4650,
     flights: 458,
     avgFlightMin: 76,
-    shameFact: 'The #1 private jet polluter of 2022. The Siebel Systems founder burned 4,650 tonnes of CO₂ from 458 flights covering 350,000+ miles. That\'s nearly 1,162 times the global average person\'s annual footprint — from jets alone.',
+    shameFact: 'The #1 private jet polluter of 2022. The Siebel Systems founder burned 4,650 tonnes of CO₂ from 458 flights covering 350,000+ miles. That\'s nearly 1,162 times the global average person\'s annual footprint, from jets alone.',
     dataYear: '2022',
   },
   {
@@ -29,7 +29,7 @@ const BILLIONAIRES = [
     tonnes: 4037,
     flights: 597,
     avgFlightMin: 44,
-    shameFact: 'The Amway fortune heirs took 597 flights in 2022, emitting 4,037 tonnes of CO₂ from 443,000 miles of jet travel. Their average flight was just 44 minutes — countless short hops that could have been drives.',
+    shameFact: 'The Amway fortune heirs took 597 flights in 2022, emitting 4,037 tonnes of CO₂ from 443,000 miles of jet travel. Their average flight was just 44 minutes, countless short hops that could have been drives.',
     dataYear: '2022',
   },
   {
@@ -40,7 +40,7 @@ const BILLIONAIRES = [
     tonnes: 3059,
     flights: 393,
     avgFlightMin: 50,
-    shameFact: 'The climate advocate and "How to Avoid a Climate Disaster" author emitted 3,059 tonnes from 393 flights in 2022 — 765 times the global average footprint. His jets flew 328,800 miles while he preached reducing carbon footprints.',
+    shameFact: 'The climate advocate and "How to Avoid a Climate Disaster" author emitted 3,059 tonnes from 393 flights in 2022, 765 times the global average footprint. His jets flew 328,800 miles while he preached reducing carbon footprints.',
     dataYear: '2022',
   },
   {
@@ -51,7 +51,7 @@ const BILLIONAIRES = [
     tonnes: 1700,
     flights: 190,
     avgFlightMin: 110,
-    shameFact: 'The world\'s richest man burned ~1,700 tonnes of CO₂ in 2022 from 190 flights. By 2023, he ramped up to 441 flights (1,161 hours). He once flew from San Jose to San Francisco — a 45-minute drive — for a 9-minute flight. He tweets about saving humanity while his jets criss-cross the globe.',
+    shameFact: 'The world\'s richest man burned ~1,700 tonnes of CO₂ in 2022 from 190 flights. By 2023, he ramped up to 441 flights (1,161 hours). He once flew from San Jose to San Francisco, a 45-minute drive, for a 9-minute flight. He tweets about saving humanity while his jets criss-cross the globe.',
     dataYear: '2022',
   },
   {
@@ -62,7 +62,7 @@ const BILLIONAIRES = [
     tonnes: 742,
     flights: 97,
     avgFlightMin: 133,
-    shameFact: 'In 2023, Swift\'s jet took 97 flights consuming 77,000+ gallons of fuel — 742 tonnes of CO₂. Her representatives claim she loans the jet to others and has purchased carbon credits. Her jet is regularly used for tour logistics and personal travel between Nashville, LA, and New York.',
+    shameFact: 'In 2023, Swift\'s jet took 97 flights consuming 77,000+ gallons of fuel, 742 tonnes of CO₂. Her representatives claim she loans the jet to others and has purchased carbon credits. Her jet is regularly used for tour logistics and personal travel between Nashville, LA, and New York.',
     dataYear: '2023',
   },
 ];
@@ -216,7 +216,7 @@ function calculate() {
   document.getElementById('verdictYears').textContent = years >= 100 ? years.toFixed(0) : years.toFixed(1);
   document.getElementById('verdictSentence').innerHTML = `
     You would need to live <strong>${years.toFixed(1)} years</strong> (at your current habits) to emit as much CO₂ as
-    <strong>${selectedName}</strong> does in a single year — just from their private jet.
+    <strong>${selectedName}</strong> does in a single year, just from their private jet.
   `;
 
   document.getElementById('resTheirName').textContent = selectedName.toUpperCase();
@@ -242,32 +242,32 @@ function calculate() {
 
   document.getElementById('equivGrid').innerHTML = `
     <div class="equiv-card">
-      <span class="equiv-icon">👤</span>
+      <code class="equiv-icon">[PRS]</code>
       <div class="equiv-num">${avgPersonYears.toFixed(0)}</div>
       <div class="equiv-desc">Years of the average human's entire carbon footprint</div>
     </div>
     <div class="equiv-card">
-      <span class="equiv-icon">🌍</span>
+      <code class="equiv-icon">[COM]</code>
       <div class="equiv-num">${commercialFlights}</div>
       <div class="equiv-desc">Economy class short-haul commercial flights</div>
     </div>
     <div class="equiv-card">
-      <span class="equiv-icon">🚗</span>
+      <code class="equiv-icon">[CAR]</code>
       <div class="equiv-num">${parseInt(carKm).toLocaleString()}k</div>
       <div class="equiv-desc">Kilometres driven in an average petrol car</div>
     </div>
     <div class="equiv-card">
-      <span class="equiv-icon">🌲</span>
+      <code class="equiv-icon">[FOR]</code>
       <div class="equiv-num">${parseInt(treesNeeded).toLocaleString()}</div>
       <div class="equiv-desc">Trees needed to absorb these emissions in one year</div>
     </div>
     <div class="equiv-card">
-      <span class="equiv-icon">⛏️</span>
+      <code class="equiv-icon">[COA]</code>
       <div class="equiv-num">${coalBurned}t</div>
       <div class="equiv-desc">Tonnes of coal that produce the same CO₂</div>
     </div>
     <div class="equiv-card">
-      <span class="equiv-icon">🧍</span>
+      <code class="equiv-icon">[YOU]</code>
       <div class="equiv-num">${years.toFixed(1)}</div>
       <div class="equiv-desc">Years you'd need to live (at your rate) to match their jets</div>
     </div>
@@ -296,7 +296,7 @@ function calculate() {
   } else {
     gradeEl.textContent = 'A';
     gradeEl.style.color = '#00cc66';
-    gradeDesc.textContent = 'You are living a remarkably low-impact life. And yet one billionaire undoes it all — thousands of times over — before breakfast.';
+    gradeDesc.textContent = 'You are living a remarkably low-impact life. And yet one billionaire undoes it all, thousands of times over, before breakfast.';
   }
 
   document.getElementById('results').classList.add('visible');
