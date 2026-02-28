@@ -415,6 +415,7 @@ select option { background: #1a1a1a; }
   padding: 0 10px;
   outline: none;
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .number-input input::-webkit-outer-spin-button,
