@@ -78,6 +78,7 @@ function updateYachtLabel() {
   const rate = parseFloat(sel.value);
   const labels = { 3: 'CHARTER / DAY YACHT · ~3 TONNES / DAY', 7: 'LARGE PRIVATE YACHT · ~7 TONNES / DAY', 20: 'SUPERYACHT 80-120M · ~20 TONNES / DAY + IDLE FUEL', 30: 'GIGAYACHT 120M+ · ~30 TONNES / DAY · BEZOS TIER' };
   document.getElementById('yacht_sub').textContent = labels[rate] || '~7 TONNES / DAY';
+  playMechanicalClick(0.4);
 }
 
 function init() {
@@ -104,6 +105,9 @@ function selectBillionaire(id) {
   // Clear custom
   document.getElementById('customName').value = '';
   document.getElementById('customTonnes').value = '';
+
+  // Play selection sound
+  playMechanicalClick(0.7);
 
   showBStats(b);
 }
@@ -201,6 +205,9 @@ function calculate() {
     alert('Please pick a billionaire or enter custom data first.');
     return;
   }
+
+  // Play calculate button sound (stronger click)
+  playMechanicalClick(1.2);
 
   const user = getUserTonnes();
   const theirTonnes = selectedTonnes;
@@ -306,6 +313,7 @@ function calculate() {
 }
 
 function reset() {
+  playMechanicalClick(0.8);
   document.getElementById('results').classList.remove('visible');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -405,14 +413,18 @@ function adjustValue(inputId, delta) {
   // Clamp to min/max
   newValue = Math.max(min, Math.min(max, newValue));
 
-  input.value = newValue;
+  // Only play sound if value actually changed
+  if (newValue !== current) {
+    input.value = newValue;
+    playMechanicalClick(0.5);
 
-  // Trigger change event for any listeners
-  input.dispatchEvent(new Event('input', { bubbles: true }));
+    // Trigger change event for any listeners
+    input.dispatchEvent(new Event('input', { bubbles: true }));
 
-  // Update yacht label if yacht input changed
-  if (inputId === 'act_yacht') {
-    updateYachtLabel();
+    // Update yacht label if yacht input changed
+    if (inputId === 'act_yacht') {
+      updateYachtLabel();
+    }
   }
 }
 
@@ -420,6 +432,11 @@ function toggleMuteBtn() {
   const muted = toggleMute();
   const btn = document.getElementById('muteBtn');
   const label = document.getElementById('muteLabel');
+
+  // Play sound only when unmuting (so user hears it work)
+  if (!muted) {
+    playMechanicalClick(0.6);
+  }
 
   if (muted) {
     label.textContent = '[OFF]';
